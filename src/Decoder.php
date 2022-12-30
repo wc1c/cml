@@ -157,7 +157,7 @@ class Decoder
 
 		try
 		{
-			$classifier =  new Classifier($data);
+			$classifier = new Classifier($data);
 		}
 		catch(\Exception $e)
 		{
