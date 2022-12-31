@@ -12,35 +12,35 @@ interface ClassifierDataContract extends DataContract
 	/**
 	 * @return string Unique id
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * @return string Classifier name
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
 	 * @return string Classifier description
 	 */
-	public function getDescription();
+	public function getDescription(): string;
 
 	/**
 	 * @return CounterpartyDataContract Classifier owner
 	 */
-	public function getOwner();
+	public function getOwner(): CounterpartyDataContract;
 
 	/**
 	 * @return array Classifier groups
 	 */
-	public function getGroups();
+	public function getGroups(): array;
 
 	/**
-	 * @return mixed Classifier properties
+	 * @return array Classifier properties
 	 */
-	public function getProperties();
+	public function getProperties(): array;
 
 	/**
-	 * @return mixed Classifier price types
+	 * @return array Classifier price types
 	 */
-	public function getPriceTypes();
+	public function getPriceTypes(): array;
 }
