@@ -155,6 +155,14 @@ class Decoder
 		 */
 		$data['units'] = $xml->ЕдиницыИзмерения ? $this->parseXmlUnits($xml->ЕдиницыИзмерения) : [];
 
+		/**
+		 * Категории
+		 * Определяет иерархическую структуру номенклатуры
+		 *
+		 * cml:Категория
+		 */
+		$data['categories'] = $xml->Категории ? $this->parseXmlClassifierCategories($xml->Категории) : [];
+
 		try
 		{
 			$classifier = new Classifier($data);
@@ -255,6 +263,41 @@ class Decoder
 	}
 
 	/**
+	 * Парсинг категорий из классификатора
+	 *
+	 * @param $xml_data
+	 * @param string|false $parent_id
+	 * @param array $categories
+	 *
+	 * @return array Все найденные в классификаторе категории
+	 *@throws Exception
+	 *
+	 */
+	private function parseXmlClassifierCategories($xml_data, $parent_id = false, &$categories = []): array
+	{
+		foreach($xml_data->Категория as $xml_category)
+		{
+			$id = (string)$xml_category->Ид;
+
+			try
+			{
+				$categories[$id] = $this->parseXmlClassifierCategoriesItem($xml_category, $parent_id);
+			}
+			catch(Exception $e)
+			{
+				continue;
+			}
+
+			if($xml_category->Категории)
+			{
+				$this->parseXmlClassifierCategories($xml_category->Категории, $id, $categories);
+			}
+		}
+
+		return $categories;
+	}
+
+	/**
 	 * @param $xml_group
 	 * @param string|false $parent_guid
 	 *
@@ -295,6 +338,73 @@ class Decoder
 		{
 			$data['mark_delete'] = 'yes';
 		}
+
+		$properties = [];
+		if($xml_group->Свойства)
+		{
+			foreach($xml_group->Свойства->Ид as $property)
+			{
+				$properties[] = (string)$property;
+			}
+		}
+
+		$data['properties'] = $properties;
+
+		return $data;
+	}
+
+	/**
+	 * @param $xml_category
+	 * @param string|false $parent_guid
+	 *
+	 * @return array
+	 */
+	private function parseXmlClassifierCategoriesItem($xml_category, $parent_guid = false): array
+	{
+		$category_guid = (string)$xml_category->Ид;
+		$category_name = (string)$xml_category->Наименование;
+
+		if($category_guid === '' || $category_name === '')
+		{
+			throw new RuntimeException('Category is not valid.');
+		}
+
+		$data =
+		[
+			'name' => $category_name,
+			'id' => $category_guid,
+			'parent_id' => $parent_guid ?: false,
+			'version' => $xml_category->НомерВерсии ? (string)$xml_category->НомерВерсии : '',
+		];
+
+		$data['description'] = '';
+		if($xml_category->Описание)
+		{
+			$data['description'] = (string)$xml_category->Описание;
+		}
+
+		$data['image'] = '';
+		if($xml_category->Картинка)
+		{
+			$data['image'] = (string)$xml_category->Картинка;
+		}
+
+		$data['mark_delete'] = 'no';
+		if((string)$xml_category->ПометкаУдаления === 'true')
+		{
+			$data['mark_delete'] = 'yes';
+		}
+
+		$properties = [];
+		if($xml_category->Свойства)
+		{
+			foreach($xml_category->Свойства->Ид as $property)
+			{
+				$properties[] = (string)$property;
+			}
+		}
+
+		$data['properties'] = $properties;
 
 		return $data;
 	}
