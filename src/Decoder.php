@@ -1490,7 +1490,20 @@ class Decoder
 	 */
 	private function parseXmlUnits($xml_data): array
 	{
-		return [];
+		$data = [];
+
+		foreach($xml_data as $xml_data_value)
+		{
+			$data[trim((string)$xml_data_value->Код)] =
+			[
+				'code' => trim((string)$xml_data_value->Код),
+				'full_name' => trim((string)$xml_data_value->НаименованиеПолное),
+				'short_name_intl' => trim((string)$xml_data_value->МеждународноеСокращение),
+				'short_name' => trim((string)$xml_data_value->НаименованиеКраткое),
+			];
+		}
+
+		return $data;
 	}
 
 	/**
