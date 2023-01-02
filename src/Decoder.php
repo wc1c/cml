@@ -1492,7 +1492,7 @@ class Decoder
 	{
 		$data = [];
 
-		foreach($xml_data as $xml_data_value)
+		foreach($xml_data->ЕдиницаИзмерения as $xml_data_value)
 		{
 			$data[trim((string)$xml_data_value->Код)] =
 			[
