@@ -28,7 +28,8 @@ class Product extends DataAbstract implements ProductDataContract
 		'characteristic_values' => [],
 		'taxes' => [],
 		'classifier_groups' => [],
-		'classifier_categories' => []
+		'classifier_categories' => [],
+		'base_unit' => []
 	];
 
 	/**
@@ -305,6 +306,19 @@ class Product extends DataAbstract implements ProductDataContract
 	/**
 	 * @return bool
 	 */
+	public function hasBaseUnit(): bool
+	{
+		if(empty($this->data['base_unit']))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function hasImages(): bool
 	{
 		if(empty($this->data['images']))
@@ -349,6 +363,19 @@ class Product extends DataAbstract implements ProductDataContract
 		if($this->hasTaxes())
 		{
 			return $this->data['taxes'];
+		}
+
+		return [];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getBaseUnit(): array
+	{
+		if($this->hasBaseUnit())
+		{
+			return $this->data['base_unit'];
 		}
 
 		return [];

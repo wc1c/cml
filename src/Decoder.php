@@ -625,7 +625,7 @@ class Decoder
 		 * Имя базовой единицы измерения товара по ОКЕИ. В документах и коммерческих предложениях может быть указана другая единица измерения,
 		 * но при этом обязательно указывается коэффициент пересчета количества в базовую единицу товара.
 		 */
-		// todo: Базовая единица
+		$product_data['base_unit'] = $xml_product_data->БазоваяЕдиница ? $this->parseXmlProductBaseUnit($xml_product_data->БазоваяЕдиница) : [];
 
 		/**
 		 * Идентификатор товара у контрагента (идентификатор товара в системе контрагента)
@@ -1491,5 +1491,23 @@ class Decoder
 	private function parseXmlUnits($xml_data): array
 	{
 		return [];
+	}
+
+	/**
+	 * Разбор базовой единицы измерения продукта
+	 *
+	 * @param $xml_data
+	 *
+	 * @return array
+	 */
+	public function parseXmlProductBaseUnit($xml_data): array
+	{
+		return
+		[
+			'code' => (string)$xml_data['Код'],
+			'full_name' => $xml_data['НаименованиеПолное'] ? (string)$xml_data['НаименованиеПолное'] : '',
+			'short_name' => $xml_data['НаименованиеКраткое'] ? (string)$xml_data['НаименованиеКраткое'] : '',
+			'short_name_intl' => $xml_data['МеждународноеСокращение'] ? (string)$xml_data['МеждународноеСокращение'] : '',
+		];
 	}
 }
