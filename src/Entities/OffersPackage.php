@@ -110,9 +110,9 @@ class OffersPackage extends DataAbstract implements OffersPackageDataContract
 	}
 
 	/**
-	 * @return mixed|string
+	 * @return string
 	 */
-	public function getCatalogId()
+	public function getCatalogId(): string
 	{
 		return $this->data['catalog_id'];
 	}
