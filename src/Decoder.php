@@ -990,7 +990,7 @@ class Decoder
 	{
 		$result = [];
 
-		foreach($xml_data->Категория as $category_guid)
+		foreach($xml_data as $category_guid)
 		{
 			/**
 			 * Идентификатор категории товаров в классификаторе
