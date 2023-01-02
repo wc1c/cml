@@ -96,6 +96,38 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	/**
 	 * @return array
 	 */
+	public function getCategories(): array
+	{
+		return $this->data['categories'];
+	}
+
+	/**
+	 * @param array $categories
+	 */
+	public function setCategories(array $categories)
+	{
+		$this->data['categories'] = $categories;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getUnits(): array
+	{
+		return $this->data['units'];
+	}
+
+	/**
+	 * @param array $units
+	 */
+	public function setUnits(array $units)
+	{
+		$this->data['units'] = $units;
+	}
+
+	/**
+	 * @return array
+	 */
 	public function getProperties(): array
 	{
 		return $this->data['properties'];
@@ -127,5 +159,41 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	public function setPriceTypes(array $price_types)
 	{
 		$this->data['price_types'] = $price_types;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasGroups(): bool
+	{
+		if(empty($this->data['groups']))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasCategories(): bool
+	{
+		if(empty($this->data['categories']))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUnits(): bool
+	{
+		if(empty($this->data['units']))
+		{
+			return false;
+		}
+		return true;
 	}
 }

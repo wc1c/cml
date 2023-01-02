@@ -35,6 +35,11 @@ interface ClassifierDataContract extends DataContract
 	public function getGroups(): array;
 
 	/**
+	 * @return array Classifier categories
+	 */
+	public function getCategories(): array;
+
+	/**
 	 * @return array Classifier properties
 	 */
 	public function getProperties(): array;
@@ -43,4 +48,9 @@ interface ClassifierDataContract extends DataContract
 	 * @return array Classifier price types
 	 */
 	public function getPriceTypes(): array;
+
+	/**
+	 * @return array Classifier units
+	 */
+	public function getUnits(): array;
 }
