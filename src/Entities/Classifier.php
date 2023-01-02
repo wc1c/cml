@@ -94,37 +94,37 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
-	public function getProperties()
+	public function getProperties(): array
 	{
 		return $this->data['properties'];
 	}
 
 	/**
-	 * @param $properties
+	 * @param array $properties
 	 *
 	 * @return void
 	 */
-	public function setProperties($properties)
+	public function setProperties(array $properties)
 	{
 		$this->data['properties'] = $properties;
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
-	public function getPriceTypes()
+	public function getPriceTypes(): array
 	{
 		return $this->data['price_types'];
 	}
 
 	/**
-	 * @param $price_types
+	 * @param array $price_types
 	 *
 	 * @return void
 	 */
-	public function setPriceTypes($price_types)
+	public function setPriceTypes(array $price_types)
 	{
 		$this->data['price_types'] = $price_types;
 	}
