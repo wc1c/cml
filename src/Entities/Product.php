@@ -346,12 +346,25 @@ class Product extends DataAbstract implements ProductDataContract
 	 */
 	public function getTaxes(): array
 	{
-		if(empty($this->data['taxes']))
+		if($this->hasTaxes())
 		{
-			return [];
+			return $this->data['taxes'];
 		}
 
-		return $this->data['taxes'];
+		return [];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasTaxes(): bool
+	{
+		if(empty($this->data['taxes']))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

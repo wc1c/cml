@@ -634,11 +634,18 @@ class Decoder
 		$product_data['counterparty_product_guid'] = $xml_product_data->ИдТовараУКонтрагента ? (string)$xml_product_data->ИдТовараУКонтрагента : '';
 
 		/**
-		 * Категории товара
+		 * Группы товара
 		 *
 		 * Содержит идентификаторы групп, которым принадлежит данный товар в указанном классификаторе.
 		 */
 		$product_data['classifier_groups'] = $xml_product_data->Группы ? $this->parseXmlProductGroups($xml_product_data->Группы) : [];
+
+		/**
+		 * Категории товара
+		 *
+		 * Содержит идентификаторы категорий, которым принадлежит данный товар в указанном классификаторе.
+		 */
+		$product_data['classifier_categories'] = $xml_product_data->Категория ? $this->parseXmlProductCategories($xml_product_data->Категория) : [];
 
 		/**
 		 * Описание товара
@@ -692,7 +699,7 @@ class Decoder
 		if($xml_product_data->Изготовитель)
 		{
 			$product_data['manufacturer']['name'] = trim((string)$xml_product_data->Изготовитель->Наименование);
-			$product_data['manufacturer']['name_guid'] = trim((string)$xml_product_data->Изготовитель->Ид);
+			$product_data['manufacturer']['id'] = trim((string)$xml_product_data->Изготовитель->Ид);
 		}
 		elseif($xml_product_data->Производитель)
 		{
@@ -799,7 +806,7 @@ class Decoder
 		/**
 		 * Модель
 		 */
-		$product_data['model'] = $xml_product_data->Модель ? (string)$xml_product_data->Модель : [];
+		$product_data['model'] = $xml_product_data->Модель ? (string)$xml_product_data->Модель : '';
 
 		/***************************************************************************************************************************************
 		 * Технические данные
@@ -808,7 +815,7 @@ class Decoder
 		/**
 		 * Версия продукта
 		 */
-		$product_data['version_number'] = $xml_product_data->НомерВерсии ? (string)$xml_product_data->НомерВерсии : '';
+		$product_data['version'] = $xml_product_data->НомерВерсии ? (string)$xml_product_data->НомерВерсии : '';
 
 		/**
 		 * Пометка товара на удаление
@@ -964,6 +971,29 @@ class Decoder
 		{
 			/**
 			 * Идентификатор группы товаров в классификаторе
+			 * cml:ИдентификаторГлобальныйТип
+			 */
+			$result[] = (string)$category_guid;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Обработка категорий продукта
+	 *
+	 * @param $xml_data
+	 *
+	 * @return array Массив GUID (идентификаторов категорий)
+	 */
+	private function parseXmlProductCategories($xml_data): array
+	{
+		$result = [];
+
+		foreach($xml_data->Категория as $category_guid)
+		{
+			/**
+			 * Идентификатор категории товаров в классификаторе
 			 * cml:ИдентификаторГлобальныйТип
 			 */
 			$result[] = (string)$category_guid;
