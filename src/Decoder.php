@@ -97,6 +97,8 @@ class Decoder
 			case 'offer':
 			case 'product':
 				return $this->decodeProduct($data);
+			case 'warehouses':
+				return $this->decodeWarehouses($data);
 			default:
 				return false;
 		}
@@ -110,6 +112,16 @@ class Decoder
 	public function decodePriceTypes(SimpleXMLElement $xml): array
 	{
 		return $this->parseXmlPriceTypes($xml);
+	}
+
+	/**
+	 * @param SimpleXMLElement $xml
+	 *
+	 * @return array
+	 */
+	public function decodeWarehouses(SimpleXMLElement $xml): array
+	{
+		return $this->parseXmlWarehouses($xml);
 	}
 
 	/**
@@ -162,6 +174,11 @@ class Decoder
 		 * cml:Категория
 		 */
 		$data['categories'] = $xml->Категории ? $this->parseXmlClassifierCategories($xml->Категории) : [];
+
+		/**
+		 * Склады
+		 */
+		$data['warehouses'] = $xml->Склады ? $this->parseXmlWarehouses($xml->Склады) : [];
 
 		try
 		{
@@ -1377,7 +1394,7 @@ class Decoder
 			{
 				$warehouses[(string)$warehouse['ИдСклада']] =
 				[
-					'guid' => (string)$warehouse['ИдСклада'],
+					'id' => (string)$warehouse['ИдСклада'],
 					'quantity' => (float)$warehouse['КоличествоНаСкладе']
 				];
 			}
@@ -1396,7 +1413,7 @@ class Decoder
 					{
 						$warehouses[(string)$warehouse->ИдСклада] =
 						[
-							'guid' => (string)$warehouse->ИдСклада,
+							'id' => (string)$warehouse->ИдСклада,
 							'quantity' => (float)$warehouse->Количество
 						];
 					}
@@ -1420,7 +1437,7 @@ class Decoder
 
 		foreach($xml_data->Склад as $xml_warehouse)
 		{
-			$guid = (string)$xml_warehouse->Ид;
+			$id = (string)$xml_warehouse->Ид;
 			$name = trim((string)$xml_warehouse->Наименование);
 			$description = trim((string)$xml_warehouse->Комментарий);
 
@@ -1428,12 +1445,12 @@ class Decoder
 
 			// todo: Контакты
 
-			$data[$guid] = array
-			(
-				'guid' => $guid,
+			$data[$id] =
+			[
+				'id' => $id,
 				'name' => $name,
 				'description' => $description
-			);
+			];
 		}
 
 		return $data;
