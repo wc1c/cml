@@ -26,6 +26,9 @@ class Product extends DataAbstract implements ProductDataContract
 		'requisites' => [],
 		'property_values' => [],
 		'characteristic_values' => [],
+		'taxes' => [],
+		'classifier_groups' => [],
+		'classifier_categories' => []
 	];
 
 	/**
@@ -109,7 +112,7 @@ class Product extends DataAbstract implements ProductDataContract
 	 *
 	 * @param string $name Наименование реквизита для получения значения, опционально
 	 *
-	 * @return false|array|string Ложь, массив всех реквизитов или значение конкретного реквизита
+	 * @return false|array Ложь, массив всех реквизитов или значение конкретного реквизита
 	 */
 	public function getRequisites($name = '')
 	{
@@ -323,6 +326,32 @@ class Product extends DataAbstract implements ProductDataContract
 		}
 
 		return $this->data['classifier_groups'];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getClassifierCategories(): array
+	{
+		if(empty($this->data['classifier_categories']))
+		{
+			return [];
+		}
+
+		return $this->data['classifier_categories'];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTaxes(): array
+	{
+		if(empty($this->data['taxes']))
+		{
+			return [];
+		}
+
+		return $this->data['taxes'];
 	}
 
 	/**
