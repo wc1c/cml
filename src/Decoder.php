@@ -858,13 +858,25 @@ class Decoder
 		{
 			$product_data['delete_mark'] = (string)$xml_product_data->ПометкаУдаления === 'true' ? 'yes' : 'no';
 		}
-
-		/**
-		 * УНФ
-		 */
+		/* УНФ */
 		if($xml_product_data->Статус)
 		{
 			$product_data['delete_mark'] = (string)$xml_product_data->Статус === 'Удален' ? 'yes' : 'no';
+		}
+		/* 2.04.1CBitrix */
+		if($xml_product_data->ПомеченНаУдаление)
+		{
+			$product_data['delete_mark'] = (string)$xml_product_data->ПомеченНаУдаление === 'true' ? 'yes' : 'no';
+		}
+
+		/**
+		 * Спецификация
+		 */
+		/* 2.04.1CBitrix */
+		$product_data['specification'] = '';
+		if($xml_product_data->Спецификация)
+		{
+			$product_data['specification'] =  htmlspecialchars(trim((string)$xml_product_data->Спецификация));
 		}
 
 		/**
