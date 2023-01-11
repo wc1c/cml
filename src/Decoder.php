@@ -514,6 +514,11 @@ class Decoder
 		{
 			$property_data['values_type'] = (string)$xml_property->ТипЗначений;
 		}
+		// 2.04.1CBitrix
+		if($xml_property->ТипыЗначений->ТипЗначений->Тип)
+		{
+			$property_data['values_type'] = (string)$xml_property->ТипыЗначений->ТипЗначений->Тип;
+		}
 
 		/**
 		 * Варианты значений
@@ -523,11 +528,22 @@ class Decoder
 		 */
 		$property_values_data = [];
 		$property_data['values_variants'] = $property_values_data;
-		if($property_data['values_type'] === 'Справочник' && $xml_property->ВариантыЗначений->Справочник)
+		if($property_data['values_type'] === 'Справочник')
 		{
-			foreach($xml_property->ВариантыЗначений->Справочник as $value)
+			if($xml_property->ВариантыЗначений->Справочник)
 			{
-				$property_values_data[(string)$value->ИдЗначения] = htmlspecialchars(trim((string)$value->Значение));
+				foreach($xml_property->ВариантыЗначений->Справочник as $value)
+				{
+					$property_values_data[(string)$value->ИдЗначения] = htmlspecialchars(trim((string)$value->Значение));
+				}
+			}
+			// 2.04.1CBitrix
+			if($xml_property->ТипыЗначений->ТипЗначений)
+			{
+				foreach($xml_property->ТипыЗначений->ТипЗначений->ВариантыЗначений as $value)
+				{
+					$property_values_data[(string)$value->Ид] = htmlspecialchars(trim((string)$value->Значение));
+				}
 			}
 
 			$property_data['values_variants'] = $property_values_data;
