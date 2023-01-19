@@ -786,11 +786,11 @@ class Decoder
 		 * Определяет значение произвольного реквизита документа
 		 */
 		$requisites_values = false;
-		if($xml_product_data->ЗначениеРеквизита) // cml 2.05-
+		if(isset($xml_product_data->ЗначениеРеквизита)) // cml 2.05-
 		{
 			$requisites_values = $xml_product_data->ЗначениеРеквизита;
 		}
-		elseif($xml_product_data->ЗначенияРеквизитов) // cml 2.05+
+		elseif(isset($xml_product_data->ЗначенияРеквизитов)) // cml 2.05+
 		{
 			$requisites_values = $xml_product_data->ЗначенияРеквизитов;
 		}
@@ -803,7 +803,7 @@ class Decoder
 		/**
 		 * Цены
 		 */
-		$product_data['prices'] = $xml_product_data->Цены ? $this->parseXmlProductPrice($xml_product_data->Цены) : [];
+		$product_data['prices'] = isset($xml_product_data->Цены) ? $this->parseXmlProductPrice($xml_product_data->Цены) : [];
 
 		/**
 		 * Количество предлагаемого товара. Например, может быть указан остаток на складе.
@@ -844,7 +844,7 @@ class Decoder
 		/**
 		 * Модель
 		 */
-		$product_data['model'] = $xml_product_data->Модель ? (string)$xml_product_data->Модель : '';
+		$product_data['model'] = isset($xml_product_data->Модель) ? (string)$xml_product_data->Модель : '';
 
 		/***************************************************************************************************************************************
 		 * Технические данные
@@ -853,23 +853,23 @@ class Decoder
 		/**
 		 * Версия продукта
 		 */
-		$product_data['version'] = $xml_product_data->НомерВерсии ? (string)$xml_product_data->НомерВерсии : '';
+		$product_data['version'] = isset($xml_product_data->НомерВерсии) ? (string)$xml_product_data->НомерВерсии : '';
 
 		/**
 		 * Пометка товара на удаление
 		 */
 		$product_data['delete_mark'] = 'no';
-		if($xml_product_data->ПометкаУдаления)
+		if(isset($xml_product_data->ПометкаУдаления))
 		{
 			$product_data['delete_mark'] = (string)$xml_product_data->ПометкаУдаления === 'true' ? 'yes' : 'no';
 		}
 		/* УНФ */
-		if($xml_product_data->Статус)
+		if(isset($xml_product_data->Статус))
 		{
 			$product_data['delete_mark'] = (string)$xml_product_data->Статус === 'Удален' ? 'yes' : 'no';
 		}
 		/* 2.04.1CBitrix */
-		if($xml_product_data->ПомеченНаУдаление)
+		if(isset($xml_product_data->ПомеченНаУдаление))
 		{
 			$product_data['delete_mark'] = (string)$xml_product_data->ПомеченНаУдаление === 'true' ? 'yes' : 'no';
 		}
@@ -879,54 +879,12 @@ class Decoder
 		 */
 		/* 2.04.1CBitrix */
 		$product_data['specification'] = '';
-		if($xml_product_data->Спецификация)
+		if(isset($xml_product_data->Спецификация))
 		{
-			$product_data['specification'] =  htmlspecialchars(trim((string)$xml_product_data->Спецификация));
+			$product_data['specification'] = htmlspecialchars(trim((string)$xml_product_data->Спецификация));
 		}
-
-		/**
-		 * Code из 1С?
-		 */
-		$product_data['code'] = '';
 
 		return $product_data;
-	}
-
-	/**
-	 * Возвращает преобразованный числовой id из Код товара торговой системы
-	 *
-	 * @param $code
-	 *
-	 * @return int
-	 */
-	private function parse_xml_product_code($code)
-	{
-		$out = '';
-
-		// Пока руки не дошли до преобразования, надо откидывать префикс, а после лидирующие нули
-		$length = mb_strlen($code);
-		$begin = -1;
-
-		for ($i = 0; $i <= $length; $i++)
-		{
-			$char = mb_substr($code,$i,1);
-			// ищем первую цифру не ноль
-			if($begin === -1 && is_numeric($char) && $char != '0')
-			{
-				$begin = $i;
-				$out = $char;
-			}
-			else
-			{
-				// начало уже определено, читаем все цифры до конца
-				if(is_numeric($char))
-				{
-					$out .= $char;
-				}
-			}
-		}
-
-		return (int)$out;
 	}
 
 	/**
@@ -939,7 +897,7 @@ class Decoder
 	 */
 	private function parseXmlProductCharacteristics($xml_data): array
 	{
-		if(!$xml_data->ХарактеристикаТовара)
+		if(!isset($xml_data->ХарактеристикаТовара))
 		{
 			throw new Exception('$xml_data->ХарактеристикаТовара is empty.');
 		}
@@ -956,7 +914,7 @@ class Decoder
 			 * 2.06+
 			 */
 			$id = '';
-			if($product_feature->Ид)
+			if(isset($product_feature->Ид))
 			{
 				$id = trim(htmlspecialchars((string) $product_feature->Ид));
 			}
@@ -1017,13 +975,13 @@ class Decoder
 	{
 		$result = [];
 
-		foreach($xml_data->Ид as $category_guid)
+		foreach($xml_data->Ид as $group_guid)
 		{
 			/**
 			 * Идентификатор группы товаров в классификаторе
 			 * cml:ИдентификаторГлобальныйТип
 			 */
-			$result[] = (string)$category_guid;
+			$result[] = (string)$group_guid;
 		}
 
 		return $result;
@@ -1110,26 +1068,26 @@ class Decoder
 			 *
 			 * cml:ИдентификаторГлобальныйТип
 			 */
-			$price_type_guid = (string) $price_data->ИдТипаЦены;
+			$price_type_guid = (string)$price_data->ИдТипаЦены;
 
 			/*
 			 * Представление цены так, как оно отображается в прайс-листе. Например: 10у.е./за 1000 шт
 			 *
 			 * cml:НаименованиеТип
 			 */
-			$price_presentation = $price_data->Представление ? (string) $price_data->Представление : '';
+			$price_presentation = $price_data->Представление ? (string)$price_data->Представление : '';
 
 			/*
 			 * Цена за единицу товара
 			 *
 			 * cml:СуммаТип
 			 */
-			$price = $price_data->ЦенаЗаЕдиницу ? (float) $price_data->ЦенаЗаЕдиницу : 0;
+			$price = $price_data->ЦенаЗаЕдиницу ? (float)$price_data->ЦенаЗаЕдиницу : 0;
 
 			/*
 			 * Коэффициент
 			 */
-			$rate = $price_data->Коэффициент ? (float) $price_data->Коэффициент : 1;
+			$rate = $price_data->Коэффициент ? (float)$price_data->Коэффициент : 1;
 
 			/*
 			 * Валюта
@@ -1138,27 +1096,27 @@ class Decoder
 			 *
 			 * cml:ВалютаТип
 			 */
-			$currency = $price_data->Валюта ? (string) $price_data->Валюта : 'RUB';
+			$currency = $price_data->Валюта ? (string)$price_data->Валюта : 'RUB';
 
 			/*
 			 * Минимальное количество товара в указанных единицах, для которого действует данная цена.
 			 *
 			 * cml:КоличествоТип
 			 */
-			$min_quantity = $price_data->МинКоличество ? (string) $price_data->МинКоличество : '0';
+			$min_quantity = $price_data->МинКоличество ? (string)$price_data->МинКоличество : '0';
 
 			/*
 			 * todo: обрабатывать правильно
 			 *
 			 * cml:ЕдиницаИзмерения
 			 */
-			$unit = $price_data->Единица ? (string) $price_data->Единица : '';
+			$unit = $price_data->Единица ? (string)$price_data->Единица : '';
 
 			/**
 			 * Собираем итог
 			 */
-			$data_prices[$price_type_guid] = array
-			(
+			$data_prices[$price_type_guid] =
+			[
 				'price' => $price,
 				'price_type_id' => $price_type_guid,
 				'price_rate' => $rate,
@@ -1166,7 +1124,7 @@ class Decoder
 				'price_presentation' => $price_presentation,
 				'price_unit' => $unit,
 				'min_quantity' => $min_quantity,
-			);
+			];
 		}
 
 		return $data_prices;
@@ -1355,7 +1313,7 @@ class Decoder
 		/**
 		 * Идентификатор свойства в классификаторе товаров
 		 *
-		 * cml:ИдентфикаторГлобальныйТип
+		 * cml:ИдентификаторГлобальныйТип
 		 */
 		$property_data['property_guid'] = (string)$xml_property_data->Ид;
 
@@ -1518,14 +1476,14 @@ class Decoder
 
 			//todo: cml:Налог
 
-			$data[$guid] = array
-			(
+			$data[$guid] =
+			[
 				'guid' => $guid,
 				'name' => $name,
 				'currency' => $currency,
 				'code' => (string)$code,
 				'description' => $description
-			);
+			];
 		}
 
 		return $data;
