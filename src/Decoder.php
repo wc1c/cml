@@ -510,12 +510,12 @@ class Decoder
 		 * Один из следующих типов: Строка (по умолчанию), Число,  ДатаВремя, Справочник
 		 */
 		$property_data['values_type'] = 'Строка';
-		if($xml_property->ТипЗначений)
+		if(isset($xml_property->ТипЗначений))
 		{
 			$property_data['values_type'] = (string)$xml_property->ТипЗначений;
 		}
 		// 2.04.1CBitrix
-		if($xml_property->ТипыЗначений->ТипЗначений->Тип)
+		if(isset($xml_property->ТипыЗначений->ТипЗначений->Тип))
 		{
 			$property_data['values_type'] = (string)$xml_property->ТипыЗначений->ТипЗначений->Тип;
 		}
@@ -530,7 +530,7 @@ class Decoder
 		$property_data['values_variants'] = $property_values_data;
 		if($property_data['values_type'] === 'Справочник')
 		{
-			if($xml_property->ВариантыЗначений->Справочник)
+			if(isset($xml_property->ВариантыЗначений->Справочник))
 			{
 				foreach($xml_property->ВариантыЗначений->Справочник as $value)
 				{
@@ -538,7 +538,7 @@ class Decoder
 				}
 			}
 			// 2.04.1CBitrix
-			if($xml_property->ТипыЗначений->ТипЗначений)
+			if(isset($xml_property->ТипыЗначений->ТипЗначений))
 			{
 				foreach($xml_property->ТипыЗначений->ТипЗначений->ВариантыЗначений as $value)
 				{
@@ -555,7 +555,7 @@ class Decoder
 		 * Свойство может (или должно) использоваться при описании товаров в каталоге, пакете предложений, документах
 		 */
 		$property_data['use_products'] = 'no';
-		if($xml_property->ДляТоваров)
+		if(isset($xml_property->ДляТоваров))
 		{
 			$property_data['use_products'] = (string)$xml_property->ДляТоваров === 'true' ? 'yes' : 'no';
 		}
@@ -1326,11 +1326,11 @@ class Decoder
 			// Вид налога. Например, НДС
 			$name = trim((string)$product_tax->Наименование);
 
-			// Ставка налога в процентах
-			$rate_percent = (float)$product_tax->Ставка;
+			// Ставка налога
+			$rate = (string)$product_tax->Ставка;
 
 			// final
-			$taxes[$name] = $rate_percent;
+			$taxes[$name] = $rate;
 		}
 
 		return $taxes;
