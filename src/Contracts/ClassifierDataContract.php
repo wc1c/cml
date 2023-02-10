@@ -53,4 +53,23 @@ interface ClassifierDataContract extends DataContract
 	 * @return array Classifier units
 	 */
 	public function getUnits(): array;
+
+    /**
+     * @return array Classifier warehouses
+     */
+    public function getWarehouses(): array;
+
+    /**
+     * Пакет содержит только изменения, или нет.
+     *
+     * @return bool
+     */
+    public function isOnlyChanges(): bool;
+
+    /**
+     * Установка маркера наличия только изменений в каталоге предложений
+     *
+     * @param bool $only_changes
+     */
+    public function setOnlyChanges(bool $only_changes);
 }
