@@ -30,7 +30,7 @@ class Product extends DataAbstract implements ProductDataContract
 		'classifier_groups' => [],
 		'classifier_categories' => [],
 		'base_unit' => [],
-        'ean' => '',
+        'barcode' => '',
 	];
 
 	/**
@@ -62,14 +62,14 @@ class Product extends DataAbstract implements ProductDataContract
     /**
      * @return string|false
      */
-    public function getEan()
+    public function getBarcode()
     {
-        if(empty($this->data['ean']))
+        if(empty($this->data['barcode']))
         {
             return false;
         }
 
-        return $this->data['ean'];
+        return $this->data['barcode'];
     }
 
 	/**
