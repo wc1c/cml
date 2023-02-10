@@ -29,22 +29,6 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 		$this->data['id'] = $id;
 	}
 
-    /**
-     * @return bool
-     */
-    public function isOnlyChanges(): bool
-    {
-        return $this->data['only_changes'];
-    }
-
-    /**
-     * @param bool $only_changes
-     */
-    public function setOnlyChanges(bool $only_changes)
-    {
-        $this->data['only_changes'] = $only_changes;
-    }
-
 	/**
 	 * @return string
 	 */
