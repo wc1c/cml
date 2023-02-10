@@ -216,6 +216,11 @@ class Decoder
 		 */
 		$data['warehouses'] = $xml->Склады ? $this->parseXmlWarehouses($xml->Склады) : [];
 
+        /*
+         * Подписанты
+         */
+        // todo: реализация
+
 		try
 		{
 			$classifier = new Classifier($data);
