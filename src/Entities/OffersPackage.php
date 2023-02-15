@@ -14,6 +14,21 @@ use Wc1c\Cml\Contracts\OffersPackageDataContract;
 class OffersPackage extends DataAbstract implements OffersPackageDataContract
 {
 	/**
+	 * @var array
+	 */
+	protected $data =
+	[
+		'id' => '',
+		'classifier_id' => '',
+		'catalog_id' => '',
+		'name' => '',
+		'owner' => null,
+		'price_types' => [],
+		'warehouses' => [],
+		'only_changes' => false,
+	];
+
+	/**
 	 * @return string
 	 */
 	public function getId(): string
