@@ -227,6 +227,18 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasPriceTypes(): bool
+	{
+		if(empty($this->data['price_types']))
+		{
+			return false;
+		}
+		return true;
+	}
+
     /**
      * @param array $warehouses
      */

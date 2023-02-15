@@ -173,4 +173,28 @@ class OffersPackage extends DataAbstract implements OffersPackageDataContract
 	{
 		return $this->data['warehouses'];
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPriceTypes(): bool
+	{
+		if(empty($this->data['price_types']))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasWarehouses(): bool
+	{
+		if(empty($this->data['warehouses']))
+		{
+			return false;
+		}
+		return true;
+	}
 }
