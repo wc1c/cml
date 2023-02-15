@@ -928,7 +928,7 @@ class Decoder
             $rate = (string)$document_tax->Ставка;
 
             // Учтено в сумме
-            $in_total = isset($document_tax->УчтеноВСумм) ? (string)$document_tax->УчтеноВСумме : '';
+            $in_total = isset($document_tax->УчтеноВСумме) ? (string)$document_tax->УчтеноВСумме : '';
 
             // final
             $taxes[$name] =
@@ -1830,7 +1830,7 @@ class Decoder
 
 			$data[$guid] =
 			[
-				'guid' => $guid,
+				'id' => $guid,
 				'name' => $name,
 				'currency' => $currency,
 				'code' => (string)$code,
