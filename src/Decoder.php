@@ -1826,7 +1826,31 @@ class Decoder
 			 */
 			$currency = $price_type->Валюта ? (string)$price_type->Валюта : 'RUB';
 
-			//todo: cml:Налог
+			$tax = [];
+			if($price_type->Налог)
+			{
+				$tax['name'] = $price_type->Налог->Наименование ? (string)$price_type->Налог->Наименование : '';
+				$tax['in_total'] = $price_type->Налог->УчтеноВСумме ? (string)$price_type->Налог->УчтеноВСумме : 'true';
+				$tax['excise'] = $price_type->Налог->Акциз ? (string)$price_type->Налог->Акциз : 'false';
+
+				if($tax['in_total'] === 'true')
+				{
+					$tax['in_total'] = 'yes';
+				}
+				else
+				{
+					$tax['in_total'] = 'no';
+				}
+
+				if($tax['excise'] === 'true')
+				{
+					$tax['excise'] = 'yes';
+				}
+				else
+				{
+					$tax['excise'] = 'no';
+				}
+			}
 
 			$data[$guid] =
 			[
@@ -1834,7 +1858,8 @@ class Decoder
 				'name' => $name,
 				'currency' => $currency,
 				'code' => (string)$code,
-				'description' => $description
+				'description' => $description,
+				'tax' => $tax
 			];
 		}
 
