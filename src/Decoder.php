@@ -164,7 +164,9 @@ class Decoder
 	 */
 	public function decodeClassifier(SimpleXMLElement $xml)
 	{
-		$data['id'] = (string)$xml->Ид;
+		$_guid = explode("#", (string)$xml->Ид);
+		$data['id'] = $_guid[0];
+
 		$data['name'] = (string)$xml->Наименование;
 		$data['description'] = $xml->Описание ? (string)$xml->Описание : '';
 

@@ -14,6 +14,24 @@ use Wc1c\Cml\Contracts\CounterpartyDataContract;
 class Classifier extends DataAbstract implements ClassifierDataContract
 {
 	/**
+	 * @var array
+	 */
+	protected $data =
+	[
+		'id' => '',
+		'name' => '',
+		'description' => '',
+		'owner' => null,
+		'groups' => [],
+		'categories' => [],
+		'units' => [],
+		'properties' => [],
+		'price_types' => [],
+		'warehouses' => [],
+		'only_changes' => false,
+	];
+
+	/**
 	 * @return string
 	 */
 	public function getId(): string
@@ -224,4 +242,20 @@ class Classifier extends DataAbstract implements ClassifierDataContract
     {
         return $this->data['warehouses'];
     }
+
+	/**
+	 * @return bool
+	 */
+	public function isOnlyChanges(): bool
+	{
+		return $this->data['only_changes'];
+	}
+
+	/**
+	 * @param bool $only_changes
+	 */
+	public function setOnlyChanges(bool $only_changes)
+	{
+		$this->data['only_changes'] = $only_changes;
+	}
 }
