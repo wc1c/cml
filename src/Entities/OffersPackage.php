@@ -175,6 +175,24 @@ class OffersPackage extends DataAbstract implements OffersPackageDataContract
 	}
 
 	/**
+	 * @param array $price_types
+	 *
+	 * @return void
+	 */
+	public function assignPriceTypes(array $price_types)
+	{
+		$this->data['price_types'] = array_merge($this->data['price_types'], $price_types);
+	}
+
+	/**
+	 * @param array $warehouses
+	 */
+	public function assignWarehouses(array $warehouses)
+	{
+		$this->data['warehouses'] = array_merge($this->data['warehouses'], $warehouses);
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function hasPriceTypes(): bool
