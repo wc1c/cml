@@ -116,7 +116,7 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	 */
 	public function assignGroups(array $groups)
 	{
-		$this->data['groups'] = array_merge_recursive($this->data['groups'], $groups);
+		$this->data['groups'] = array_merge($this->data['groups'], $groups);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	 */
 	public function assignCategories(array $categories)
 	{
-		$this->data['categories'] = array_merge_recursive($this->data['categories'], $categories);
+		$this->data['categories'] = array_merge($this->data['categories'], $categories);
 	}
 
 	/**
