@@ -192,7 +192,7 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 	 */
 	public function assignProperties(array $properties)
 	{
-		$this->data['properties'] = array_merge_recursive($this->data['properties'], $properties);
+		$this->data['properties'] = array_merge($this->data['properties'], $properties);
 	}
 
 	/**
