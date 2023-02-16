@@ -299,6 +299,18 @@ class Classifier extends DataAbstract implements ClassifierDataContract
 		$this->data['warehouses'] = array_merge($this->data['warehouses'], $warehouses);
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasWarehouses(): bool
+	{
+		if(empty($this->data['warehouses']))
+		{
+			return false;
+		}
+		return true;
+	}
+
     /**
      * @return array
      */
