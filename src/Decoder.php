@@ -1499,6 +1499,12 @@ class Decoder
 			 */
 			$property_values_data['value'] = $xml_property_values_data->Значение ? (string)$xml_property_values_data->Значение : '';
 
+			// 2.04.1CBitrix
+			if(empty($property_values_data['value'] ))
+			{
+				$property_values_data['value'] = $xml_property_values_data->ИдЗначения ? (string)$xml_property_values_data->ИдЗначения : '';
+			}
+
 			/**
 			 * Add to all
 			 */
