@@ -418,4 +418,17 @@ class Product extends DataAbstract implements ProductDataContract
 
 		return $this->data['quantity'];
 	}
+
+    /**
+     * @return bool
+     */
+    public function hasDeleted(): bool
+    {
+        if(isset($this->data['delete_mark']) && $this->data['delete_mark'] === 'yes')
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
